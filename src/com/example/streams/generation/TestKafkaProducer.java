@@ -21,13 +21,25 @@ public class TestKafkaProducer {
 
 	public static Producer<String, String> sendDataToKafka(String topicName, String event) {
 		Properties props = new Properties();
-		props.put("bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094,localhost:9095");
+		props.put("bootstrap.servers", "localhost:9092");
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
 		Producer<String, String> producer = new KafkaProducer<String, String>(props);
 
 		producer.send(new ProducerRecord<String, String>(topicName, event));
+		return producer;
+	}
+	public static Producer<String, String> sendDataToKafka(String topicName, String event, String key) {
+		Properties props = new Properties();
+		props.put("bootstrap.servers", "localhost:9092");
+		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+
+		Producer<String, String> producer = new KafkaProducer<String, String>(props);
+			
+		ProducerRecord<String, String> record = new ProducerRecord<String, String>(topicName, key, event);
+		producer.send(record);
 		return producer;
 	}
 }

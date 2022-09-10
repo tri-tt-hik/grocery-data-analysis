@@ -2,7 +2,6 @@ package com.example.streams.generation;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import com.example.streams.generation.TripInfo.Coordinate;
@@ -11,7 +10,7 @@ public class GenerateTripInfoStreamToKafka {
 	public static void main(String[] args) throws InterruptedException, IOException {
 		while (true) {
 
-			int recordsCount = new Random().nextInt(15);
+			int recordsCount = RandomDataGenUtility.randomIntBetween(4, 15);
 			for (int i = 0; i <= recordsCount; i++) {
 				TripInfo tripInfo = new TripInfo();
 				Map<String, String> coords = RandomDataGenUtility.randomLonLat(12, 14, 80, 82);
@@ -44,11 +43,11 @@ public class GenerateTripInfoStreamToKafka {
 
 				tripInfo.setEstimatedPrice(RandomDataGenUtility.randomBetween(100, 876));
 
-				TestKafkaProducer.sendDataToKafka("test", tripInfo.toString());
+				TestKafkaProducer.sendDataToKafka("bigstream2k22", tripInfo.toString(), tripInfo.getSearchId());
 
 			}
-			Thread.sleep(3000);
 			System.out.println(recordsCount + " records Sent to Kafka.");
+			Thread.sleep(10000);
 		}
 
 	}
