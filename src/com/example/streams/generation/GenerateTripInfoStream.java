@@ -20,35 +20,21 @@ public class GenerateTripInfoStream {
 			int recordsCount = new Random().nextInt(15);
 			for (int i = 0; i <= recordsCount; i++) {
 				TripInfo tripInfo = new TripInfo();
-				Map<String, String> coords = RandomDataGenUtility.randomLonLat(12, 14, 80, 82);
+				tripInfo.setproductId(UUID.randomUUID().toString());
 
-				Coordinate p1 = new Coordinate();
-				p1.setLat(Double.parseDouble(coords.get("J")));
-				p1.setLon(Double.parseDouble(coords.get("W")));
+				String[] groceryStoreName = { "Chera Stores" , "Grace" , "Saravana Stores" , "Nilgris" , "Pandian Stores" , "Chola Stores" };
+				tripInfo.setgroceryStoreName(RandomDataGenUtility.randomElement(groceryStoreName));
 
-				tripInfo.setPickupPoint(p1);
 
-				coords = RandomDataGenUtility.randomLonLat(10, 12, 77, 80);
 
-				Coordinate p2 = new Coordinate();
-				p2.setLat(Double.parseDouble(coords.get("J")));
-				p2.setLon(Double.parseDouble(coords.get("W")));
+				String[] productname = { "Colgate", "Harpic", "Milk", "Flour", "Chicken" };
+				tripInfo.setproductName(RandomDataGenUtility.randomElement(productname));
 
-				tripInfo.setDropPoint(p2);
-				tripInfo.setSearchId(UUID.randomUUID().toString());
-
-				String[] typeOfVehicle = { "Two-Wheeler", "Auto", "Mini", "Sedan", "SUV" };
-				tripInfo.setTypeOfVehicle(RandomDataGenUtility.randomElement(typeOfVehicle));
-
-				String[] paymentMethod = { "cash", "gpay", "paytm", "phone-pe", "post-paid" };
-				tripInfo.setPaymentMethod(RandomDataGenUtility.randomElement(paymentMethod));
-
-				String[] passengers = { "Ajay", "Bala", "Cyan", "Dinesh", "Ezhil" };
-				tripInfo.setPrimaryPassangerName(RandomDataGenUtility.randomElement(passengers));
-
-				tripInfo.setPrimaryPassangerContact(RandomDataGenUtility.randomPhoneno());
+				tripInfo.setquantity(RandomDataGenUtility.randomIntBetween(1, 15));
 
 				tripInfo.setEstimatedPrice(RandomDataGenUtility.randomBetween(100, 876));
+
+				TestKafkaProducer.sendDataToKafka("grocery", tripInfo.toString(), tripInfo.getproductId());
 
 				bw.write(tripInfo.toString()+"\n");
 				

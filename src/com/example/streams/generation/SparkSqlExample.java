@@ -12,7 +12,7 @@ public class SparkSqlExample {
 		Dataset<Row> df = spark.read().json("trip-info.json");
 		df.printSchema();
 		df.createOrReplaceTempView("trip");
-		Dataset<Row> res = spark.sql("select count(*) from trip where paymentMethod='paytm'");
-		res.write().json("paytm-trip-info");
+		Dataset<Row> res = spark.sql("select count(*) from trip where estimatedPrice > 400");
+		res.write().json("price-trip-info");
 	}
 }

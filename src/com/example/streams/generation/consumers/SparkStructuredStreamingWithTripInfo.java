@@ -23,22 +23,18 @@ public class SparkStructuredStreamingWithTripInfo {
 		SparkConf conf = new SparkConf().setMaster("local").setAppName("SparkStructuredStreamingWithKafka");
 		SparkSession spark = SparkSession.builder().config(conf).getOrCreate();
 		spark.sparkContext().setLogLevel("ERROR");
-		
-		List<StructField> coordFields = new ArrayList<StructField>();
-		coordFields.add(DataTypes.createStructField("lat", DataTypes.DoubleType, true));
-		coordFields.add(DataTypes.createStructField("lon", DataTypes.DoubleType, true));
+
 
 		List<StructField> fields = new ArrayList<StructField>();
 		
-		fields.add(DataTypes.createStructField("searchId", DataTypes.StringType, true));
+		fields.add(DataTypes.createStructField("productId", DataTypes.StringType, true));
 
-		fields.add(DataTypes.createStructField("typeOfVehicle", DataTypes.StringType, true));
-		fields.add(DataTypes.createStructField("paymentMethod", DataTypes.StringType, true));
-		fields.add(DataTypes.createStructField("primaryPassangerName", DataTypes.StringType, true));
-		fields.add(DataTypes.createStructField("primaryPassangerContact", DataTypes.StringType, true));
+		fields.add(DataTypes.createStructField("groceryStoreName", DataTypes.StringType, true));
+
+		fields.add(DataTypes.createStructField("productName", DataTypes.StringType, true));
+		fields.add(DataTypes.createStructField("quantity", DataTypes.IntegerType, true));
 		fields.add(DataTypes.createStructField("estimatedPrice", DataTypes.DoubleType, true));
-		fields.add(DataTypes.createStructField("pickupPoint", DataTypes.createStructType(coordFields), true));
-		fields.add(DataTypes.createStructField("dropPoint", DataTypes.createStructType(coordFields), true));
+
 		StructType structType = DataTypes.createStructType(fields);
 
 
@@ -46,7 +42,7 @@ public class SparkStructuredStreamingWithTripInfo {
 				.readStream()
 				.format("kafka")
 				.option("kafka.bootstrap.servers", "localhost:9092")
-				.option("subscribe", "bigstream2k22")
+				.option("subscribe", "grocery")
 				.load();
 		Dataset<Row> res = df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
 		.withColumn("value", from_json(col("value"), structType))
@@ -54,10 +50,10 @@ public class SparkStructuredStreamingWithTripInfo {
 		
 		res.createOrReplaceTempView("trip_stream");
 		
-		spark.sql("select typeOfVehicle,max(estimatedPrice) as max_price from trip_stream group by typeOfVehicle")
+		spark.sql("select groceryStoreName,productName,quantity from trip_stream ")
 		.writeStream()
 		.format("console")
-		.outputMode(OutputMode.Complete())
+		.outputMode(OutputMode.Append())
 		.start()
 		.awaitTermination();
 

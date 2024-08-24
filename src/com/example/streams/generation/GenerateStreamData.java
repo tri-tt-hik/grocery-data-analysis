@@ -4,6 +4,7 @@ import java.util.Map;
 
 public class GenerateStreamData {
 	public static void main(String[] args) {
+		for(int i=1;i<=100;i++){
 		Map<String, String> coords = RandomDataGenUtility
 				.randomLonLat(12, 14, 80, 82);
 		System.out.println(coords.get("J")+","+coords.get("W"));
@@ -21,6 +22,6 @@ public class GenerateStreamData {
 		System.out.println(RandomDataGenUtility.randomPhoneno());
 		
 		System.out.println("Price" + RandomDataGenUtility.randomBetween(100, 876));
-	}
+	}}
 	
 }

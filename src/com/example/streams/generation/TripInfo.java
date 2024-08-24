@@ -4,84 +4,57 @@ import com.google.gson.Gson;
 
 public class TripInfo {
 
-	private String searchId;
-	private Coordinate pickupPoint;
-	private Coordinate dropPoint;
-	private String typeOfVehicle;
-	private String paymentMethod;
-	private String primaryPassangerName;
-	private String primaryPassangerContact;
+	private String productId;
+	
+	private String groceryStoreName;
+	
+	private String productName;
+	
+	private int quantity;
 	private double estimatedPrice;
 	
 	
-	public String getSearchId() {
-		return searchId;
+	public String getproductId() {
+		return productId;
 	}
 
 
-	public void setSearchId(String searchId) {
-		this.searchId = searchId;
+	public void setproductId(String productId) {
+		this.productId = productId;
+	}
+
+	public int getquantity() {
+		return quantity;
 	}
 
 
-	public Coordinate getPickupPoint() {
-		return pickupPoint;
+	public void setquantity(int quantity) {
+		this.quantity =quantity;
+	}
+
+	public String getgroceryStoreName() {
+		return groceryStoreName;
 	}
 
 
-	public void setPickupPoint(Coordinate pickupPoint) {
-		this.pickupPoint = pickupPoint;
+	public void setgroceryStoreName(String groceryStoreName) {
+		this.groceryStoreName = groceryStoreName;
+	}
+
+	public String getproductName() {
+		return productName;
 	}
 
 
-	public Coordinate getDropPoint() {
-		return dropPoint;
+	public void setproductName(String productName) {
+		this.productName = productName;
 	}
 
 
-	public void setDropPoint(Coordinate dropPoint) {
-		this.dropPoint = dropPoint;
-	}
+	
 
 
-	public String getTypeOfVehicle() {
-		return typeOfVehicle;
-	}
-
-
-	public void setTypeOfVehicle(String typeOfVehicle) {
-		this.typeOfVehicle = typeOfVehicle;
-	}
-
-
-	public String getPaymentMethod() {
-		return paymentMethod;
-	}
-
-
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
-
-
-	public String getPrimaryPassangerName() {
-		return primaryPassangerName;
-	}
-
-
-	public void setPrimaryPassangerName(String primaryPassangerName) {
-		this.primaryPassangerName = primaryPassangerName;
-	}
-
-
-	public String getPrimaryPassangerContact() {
-		return primaryPassangerContact;
-	}
-
-
-	public void setPrimaryPassangerContact(String primaryPassangerContact) {
-		this.primaryPassangerContact = primaryPassangerContact;
-	}
+	
 
 
 	public double getEstimatedPrice() {
